@@ -1,14 +1,14 @@
 modLoader="javafml"
 loaderVersion="*"
 license="All rights reserved"
-issueTrackerURL="https://github.com/ricksouth/serilum-mc-mods/labels/Mod:%20All%20Loot%20Drops"
+issueTrackerURL="https://github.com/Serilum/.issue-tracker/labels/Mod:%20All%20Loot%20Drops"
 logoFile="icon.png"
 
 [[mods]]
 modId="alllootdrops"
-version="3.2"
+version="3.3"
 displayName="All Loot Drops"
-displayURL="https://curseforge.com/minecraft/mc-mods/all-loot-drops"
+displayURL="https://serilum.com/mod/all-loot-drops"
 authors="Rick South"
 description='''Entities always drop all their possible loot in a configurable amount.
 '''
@@ -21,13 +21,15 @@ If you would like to contribute too, check out https://ricksouth.com/donate. App
 
 [[dependencies.alllootdrops]]
     modId="collective"
+    type="required"
     mandatory=true
-    versionRange="[7.13,)"
+    versionRange="[7.21,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.alllootdrops]]
     modId="minecraft"
+    type="required"
     mandatory=true
     versionRange="[1.20.4]"
     ordering="NONE"
