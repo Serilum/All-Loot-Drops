@@ -1,9 +1,8 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.natamus.alllootdrops.forge.mixin",
+  "package": "com.natamus.alllootdrops.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "alllootdrops_forge.refmap.json",
   "mixins": [
 
   ],
