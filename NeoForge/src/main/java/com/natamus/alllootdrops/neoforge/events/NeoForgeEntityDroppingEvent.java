@@ -8,9 +8,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 
-@EventBusSubscriber
 public class NeoForgeEntityDroppingEvent {
 	@SubscribeEvent
 	public static void onWorldLoad(LevelEvent.Load e) {
