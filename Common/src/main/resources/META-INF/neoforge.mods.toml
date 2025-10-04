@@ -6,7 +6,7 @@ logoFile="icon.png"
 
 [[mods]]
 modId="alllootdrops"
-version="3.5"
+version="3.6"
 displayName="All Loot Drops"
 displayURL="https://serilum.com/mod/all-loot-drops"
 authors="Rick South"
@@ -22,7 +22,7 @@ If you would like to contribute too, check out https://serilum.com/donate. Appre
 [[dependencies.alllootdrops]]
     modId="collective"
     type="required"
-    versionRange="[8.4,)"
+    versionRange="[8.8,)"
     ordering="NONE"
     side="BOTH"
 
