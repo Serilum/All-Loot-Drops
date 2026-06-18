@@ -15,7 +15,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.MagmaCube;
+import net.minecraft.world.entity.monster.cubemob.MagmaCube;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -104,7 +104,7 @@ public class EntityDroppingEvent {
 				}
 			}
 
-			if (tr.size() > 0) {
+			if (!tr.isEmpty()) {
 				for (ItemEntity ie : tr) {
 					ItemStack ieitemstack = ie.getItem();
 					if (ConfigHandler.keepOriginalLootQuantityIfHigher) {
