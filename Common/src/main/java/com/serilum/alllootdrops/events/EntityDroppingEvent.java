@@ -51,7 +51,7 @@ public class EntityDroppingEvent {
 			Constants.logger.warn("[" + Reference.NAME + "] Error: Unable to find generated loot drops. Attempting to generate them now.");
 			ItemFunctions.generateEntityDropsFromLootTable(level);
 			if (GlobalVariables.entitydrops == null) {
-				Constants.logger.warn("[" + Reference.NAME + "] Error: Still unable to generate loot drops. Please submit a bug report at 'https://github.com/ricksouth/serilum-mc-mods/labels/Mod:%20All%20Loot%20Drops'.");
+				Constants.logger.warn("[" + Reference.NAME + "] Error: Still unable to generate loot drops. Please report this on the mod's issue tracker.");
 				return;
 			}
 		}
