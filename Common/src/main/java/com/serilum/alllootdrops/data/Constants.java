@@ -1,4 +1,4 @@
-package com.natamus.alllootdrops.data;
+package com.serilum.alllootdrops.data;
 
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;

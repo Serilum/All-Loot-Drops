@@ -1,8 +1,8 @@
-package com.natamus.alllootdrops;
+package com.serilum.alllootdrops;
 
-import com.natamus.alllootdrops.forge.config.IntegrateForgeConfig;
-import com.natamus.alllootdrops.forge.events.ForgeEntityDroppingEvent;
-import com.natamus.alllootdrops.util.Reference;
+import com.serilum.alllootdrops.forge.config.IntegrateForgeConfig;
+import com.serilum.alllootdrops.forge.events.ForgeEntityDroppingEvent;
+import com.serilum.alllootdrops.util.Reference;
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
 import net.minecraftforge.common.MinecraftForge;

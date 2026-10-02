@@ -1,6 +1,6 @@
-package com.natamus.alllootdrops;
+package com.serilum.alllootdrops;
 
-import com.natamus.alllootdrops.config.ConfigHandler;
+import com.serilum.alllootdrops.config.ConfigHandler;
 
 public class ModCommon {
 

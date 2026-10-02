@@ -1,7 +1,7 @@
-package com.natamus.alllootdrops;
+package com.serilum.alllootdrops;
 
-import com.natamus.alllootdrops.events.EntityDroppingEvent;
-import com.natamus.alllootdrops.util.Reference;
+import com.serilum.alllootdrops.events.EntityDroppingEvent;
+import com.serilum.alllootdrops.util.Reference;
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
 import com.natamus.collective.fabric.callbacks.CollectiveEntityEvents;

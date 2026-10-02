@@ -1,8 +1,8 @@
-package com.natamus.alllootdrops.events;
+package com.serilum.alllootdrops.events;
 
-import com.natamus.alllootdrops.config.ConfigHandler;
-import com.natamus.alllootdrops.data.Constants;
-import com.natamus.alllootdrops.util.Reference;
+import com.serilum.alllootdrops.config.ConfigHandler;
+import com.serilum.alllootdrops.data.Constants;
+import com.serilum.alllootdrops.util.Reference;
 import com.natamus.collective.data.GlobalVariables;
 import com.natamus.collective.functions.ItemFunctions;
 import com.natamus.collective.functions.TaskFunctions;

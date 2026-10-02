@@ -1,7 +1,7 @@
-package com.natamus.alllootdrops.config;
+package com.serilum.alllootdrops.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.alllootdrops.util.Reference;
+import com.serilum.alllootdrops.util.Reference;
 
 import java.util.Arrays;
 import java.util.HashMap;

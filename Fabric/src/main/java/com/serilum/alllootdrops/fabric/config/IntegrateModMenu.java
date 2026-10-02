@@ -1,7 +1,7 @@
-package com.natamus.alllootdrops.fabric.config;
+package com.serilum.alllootdrops.fabric.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.alllootdrops.util.Reference;
+import com.serilum.alllootdrops.util.Reference;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 

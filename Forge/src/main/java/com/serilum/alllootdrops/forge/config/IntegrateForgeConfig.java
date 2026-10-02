@@ -1,7 +1,7 @@
-package com.natamus.alllootdrops.forge.config;
+package com.serilum.alllootdrops.forge.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.alllootdrops.util.Reference;
+import com.serilum.alllootdrops.util.Reference;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
 

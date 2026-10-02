@@ -1,6 +1,6 @@
-package com.natamus.alllootdrops.forge.events;
+package com.serilum.alllootdrops.forge.events;
 
-import com.natamus.alllootdrops.events.EntityDroppingEvent;
+import com.serilum.alllootdrops.events.EntityDroppingEvent;
 import com.natamus.collective.functions.WorldFunctions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
