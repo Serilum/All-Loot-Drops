@@ -1,28 +1,28 @@
 modLoader="javafml"
 loaderVersion="*"
-license="All rights reserved"
+license="All Rights Reserved"
 issueTrackerURL="https://github.com/Serilum/.issue-tracker/labels/Mod:%20All%20Loot%20Drops"
 logoFile="icon.png"
 
 [[mods]]
 modId="alllootdrops"
-version="3.5"
+version="3.7"
 displayName="All Loot Drops"
 displayURL="https://serilum.com/mod/all-loot-drops"
-authors="Rick South"
+authors="Serilum"
 description='''Entities always drop all their possible loot in a configurable amount.
 '''
 credits='''Thank you very much to my Membership sponsors for supporting the development of this mod:  
 
-Alister, Andrean Olgo, aternosorg, Cherriesaurus, David Sanchez, drdog111, Michael W. S., t128, Tyler Behl, XAgent   
+Andrean Olgo, AnyankaT, aternosorg, Cherriesaurus, Linda Jansen, MWS, Tyler Behl   
 
-If you would like to contribute too, check out https://serilum.com/donate. Appreciate it! <3   
+If you would like to contribute too, check out https://serilum.com/donate Appreciate it! <3   
 '''
 
 [[dependencies.alllootdrops]]
     modId="collective"
     type="required"
-    versionRange="[7.91,)"
+    versionRange="[8.40,)"
     ordering="NONE"
     side="BOTH"
 
