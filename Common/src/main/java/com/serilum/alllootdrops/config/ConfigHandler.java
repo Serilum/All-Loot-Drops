@@ -14,6 +14,8 @@ public class ConfigHandler extends DuskConfig {
 	@Entry(min = 1, max = 128) public static int lootQuantity = 1;
 	@Entry public static boolean lootingEnchantAffectsQuantity = true;
 	@Entry(min = 0, max = 1.0) public static double lootingEnchantExtraQuantityChance = 0.5;
+	@Entry(registry = "entity_type", filter = "mobs") public static String entityTypesToIgnore = "";
+	@Entry(registry = "item") public static String itemsToIgnore = "";
 
 	public static void initConfig() {
 		configMetaData.put("keepOriginalLootQuantityIfHigher", Arrays.asList(
@@ -27,6 +29,12 @@ public class ConfigHandler extends DuskConfig {
 		));
 		configMetaData.put("lootingEnchantExtraQuantityChance", Arrays.asList(
 			"The chance a roll succeeds in adding 1 to the total loot amount."
+		));
+		configMetaData.put("entityTypesToIgnore", Arrays.asList(
+			"Mobs that keep their normal drops, comma separated. For example 'artifacts:mimic'. A '*' works as a wildcard, like 'artifacts:*'."
+		));
+		configMetaData.put("itemsToIgnore", Arrays.asList(
+			"Items the mod never adds to a mob's drops, comma separated. When a mob drops one normally, that drop is left as it is. A '*' works as a wildcard."
 		));
 
 		DuskConfig.init(Reference.NAME, Reference.MOD_ID, ConfigHandler.class);
