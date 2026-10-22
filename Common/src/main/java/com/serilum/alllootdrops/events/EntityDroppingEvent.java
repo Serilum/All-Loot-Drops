@@ -1,8 +1,7 @@
 package com.serilum.alllootdrops.events;
 
 import com.serilum.alllootdrops.config.ConfigHandler;
-import com.serilum.alllootdrops.data.Constants;
-import com.serilum.alllootdrops.util.Reference;
+import com.serilum.alllootdrops.util.Util;
 import com.natamus.collective.data.GlobalVariables;
 import com.natamus.collective.functions.ItemFunctions;
 import com.natamus.collective.functions.TaskFunctions;
@@ -17,30 +16,23 @@ import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.MagmaCube;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EntityDroppingEvent {
 	public static void onWorldLoad(ServerLevel level) {
-		if (GlobalVariables.entitydrops != null) {
-			return;
-		}
-
-		ItemFunctions.generateEntityDropsFromLootTable(level);
+		ItemFunctions.generateEntityDropsFromLootTableOverTime(level);
 	}
-	
+
 	public static void mobItemDrop(Level level, Entity entity, DamageSource damageSource) {
 		if (level.isClientSide) {
 			return;
 		}
-		
+
 		if (entity instanceof Player || !(entity instanceof LivingEntity)) {
 			return;
 		}
@@ -48,78 +40,71 @@ public class EntityDroppingEvent {
 		if (entity instanceof MagmaCube && damageSource.getEntity() instanceof Frog) {
 			return;
 		}
-		
-		if (GlobalVariables.entitydrops == null) {
-			Constants.logger.warn("[" + Reference.NAME + "] Error: Unable to find generated loot drops. Attempting to generate them now.");
-			ItemFunctions.generateEntityDropsFromLootTable(level);
-			if (GlobalVariables.entitydrops == null) {
-				Constants.logger.warn("[" + Reference.NAME + "] Error: Still unable to generate loot drops. Please report this on the mod's issue tracker.");
-				return;
-			}
-		}
 
 		EntityType<?> type = entity.getType();
-
-		if (!GlobalVariables.entitydrops.containsKey(type)) {
+		if (Util.isIgnoredEntityType(type)) {
 			return;
 		}
-		
-		List<Item> alldrops = new ArrayList<Item>(GlobalVariables.entitydrops.get(type));
-		
+
+		if (GlobalVariables.entityDropStacks == null || !GlobalVariables.entityDropStacks.containsKey(type)) {
+			return;
+		}
+
+		Entity source = damageSource.getEntity();
+		boolean killedByPlayer = source instanceof Player;
+
+		List<ItemStack> dropStacks = Util.getDropStacks(type, killedByPlayer);
+		if (dropStacks.isEmpty()) {
+			return;
+		}
+
 		int amount = ConfigHandler.lootQuantity;
-		if (ConfigHandler.lootingEnchantAffectsQuantity) {
-			Entity source = damageSource.getEntity();
-			if (source instanceof Player) {
-				int lootinglevel = EnchantmentHelper.getEnchantmentLevel(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.LOOTING), (LivingEntity)source);
-				double increasechance = ConfigHandler.lootingEnchantExtraQuantityChance;
-				for (int n = 0; n < lootinglevel; n++) {
-					double num = GlobalVariables.random.nextDouble();
-					if (num <= increasechance) {
-						amount += 1;
-					}
+		if (ConfigHandler.lootingEnchantAffectsQuantity && killedByPlayer) {
+			int lootinglevel = EnchantmentHelper.getEnchantmentLevel(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.LOOTING), (LivingEntity)source);
+			double increasechance = ConfigHandler.lootingEnchantExtraQuantityChance;
+			for (int n = 0; n < lootinglevel; n++) {
+				double num = GlobalVariables.random.nextDouble();
+				if (num <= increasechance) {
+					amount += 1;
 				}
 			}
 		}
-		
+
+		ServerLevel serverLevel = (ServerLevel)level;
 		BlockPos epos = entity.blockPosition();
+		boolean wasOnFire = entity.isOnFire();
 		int finalAmount = amount;
-		TaskFunctions.enqueueTask(level, () -> {
-			List<ItemEntity> dropEntities = new ArrayList<ItemEntity>();
-			for (Entity ea : level.getEntities(null, new AABB(epos.getX()-1, epos.getY()-1, epos.getZ()-1, epos.getX()+1, epos.getY()+1, epos.getZ()+1))) {
-				if (ea instanceof ItemEntity) {
-					int tickCount = ea.tickCount;
-					if (tickCount <= 1) {
-						dropEntities.add((ItemEntity) ea);
+		TaskFunctions.enqueueCollectiveServerTask(serverLevel.getServer(), () -> {
+			List<ItemEntity> freshItemEntities = Util.getFreshItemEntitiesAround(serverLevel, epos);
+
+			for (ItemStack dropStack : dropStacks) {
+				ItemStack replacementStack = dropStack;
+				List<ItemEntity> originalDrops = Util.getItemEntitiesWithItem(freshItemEntities, dropStack.getItem());
+				if (originalDrops.isEmpty() && wasOnFire) {
+					ItemStack smeltedStack = Util.getSmeltedStack(serverLevel, dropStack);
+					if (!smeltedStack.isEmpty()) {
+						originalDrops = Util.getItemEntitiesWithItem(freshItemEntities, smeltedStack.getItem());
 					}
 				}
-			}
 
-			List<ItemEntity> tr = new ArrayList<ItemEntity>();
+				boolean keepOriginalDrop = false;
+				for (ItemEntity originalDrop : originalDrops) {
+					ItemStack originalStack = originalDrop.getItem();
+					replacementStack = originalStack;
 
-			for (ItemEntity ie : dropEntities) {
-				ItemStack stack = ie.getItem();
-				Item item = stack.getItem();
-				if (alldrops.contains(item)) {
-					tr.add(ie);
-				}
-			}
-
-			if (tr.size() > 0) {
-				for (ItemEntity ie : tr) {
-					ItemStack ieitemstack = ie.getItem();
-					if (ConfigHandler.keepOriginalLootQuantityIfHigher) {
-						if (ieitemstack.getCount() > ConfigHandler.lootQuantity) {
-							alldrops.remove(ieitemstack.getItem());
-							continue;
-						}
+					if (ConfigHandler.keepOriginalLootQuantityIfHigher && originalStack.getCount() > finalAmount) {
+						keepOriginalDrop = true;
+						continue;
 					}
-					ie.remove(Entity.RemovalReason.DISCARDED);
+					originalDrop.remove(Entity.RemovalReason.DISCARDED);
 				}
-			}
 
-			for (Item item : alldrops) {
-				ItemEntity ie = new ItemEntity(level, epos.getX(), epos.getY()+1, epos.getZ(), new ItemStack(item, finalAmount));
-				level.addFreshEntity(ie);
+				if (keepOriginalDrop) {
+					continue;
+				}
+
+				ItemEntity ie = new ItemEntity(serverLevel, epos.getX(), epos.getY()+1, epos.getZ(), replacementStack.copyWithCount(finalAmount));
+				serverLevel.addFreshEntity(ie);
 			}
 		}, 0);
 	}
