@@ -103,8 +103,7 @@ public class EntityDroppingEvent {
 					continue;
 				}
 
-				ItemEntity ie = new ItemEntity(serverLevel, epos.getX(), epos.getY()+1, epos.getZ(), replacementStack.copyWithCount(finalAmount));
-				serverLevel.addFreshEntity(ie);
+				entity.spawnAtLocation(replacementStack.copyWithCount(finalAmount));
 			}
 		}, 0);
 	}
